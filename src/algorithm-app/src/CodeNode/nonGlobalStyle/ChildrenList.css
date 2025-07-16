@@ -1,0 +1,77 @@
+
+.children-list-container {
+  background-color: var(--background-tertiary);
+  border-radius: 8px;
+  overflow: hidden;
+  transition: all 0.3s ease;
+  margin-bottom: 1.5rem;
+}
+
+.children-list-header {
+  background-color: var(--background-secondary);
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid var(--background-primary);
+}
+
+.children-list-header h2 {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--text-accent);
+}
+
+.children-list-items {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.children-list-item {
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  transition: background-color 0.3s ease;
+}
+
+.children-list-item:last-child {
+  border-bottom: none;
+}
+
+.children-list-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+  gap: 1rem;
+}
+
+.children-list-title {
+  flex: 1;
+  min-width: 0;
+}
+
+.children-list-title .true-color {
+  color: var(--color-true);
+}
+
+.children-list-title .false-color {
+  color: var(--color-false);
+}
+
+.children-list-status {
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+  margin-top: 0.25rem;
+}
+
+.children-list-score {
+  flex: 0 0 auto;
+  width: 40%;
+  max-width: 200px;
+}
+
+.empty-children {
+  padding: 1.5rem;
+  text-align: center;
+  color: var(--text-secondary);
+  font-style: italic;
+}

@@ -1,0 +1,187 @@
+/* CreateComment.css */
+:root {
+  --background-secondary: #FFFFFF;
+  --text-primary: #333333;
+  --text-secondary: #666666;
+  --accent-primary: #2A5DAB;
+  --button-primary: #28a2ff;
+  --button-hover: #5ab7ff;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  --alert-danger-bg: #f8d7da;
+  --alert-danger-text: #721c24;
+  --alert-danger-border: #f5c6cb;
+}
+
+.dark-mode {
+  --background-secondary: #1E1E1E;
+  --text-primary: #E0E0E0;
+  --text-secondary: #A0A0A0;
+  --accent-primary: #7EB1FF;
+  --button-primary: #1E3A5F;
+  --button-hover: #2A5DAB;
+  --card-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  --alert-danger-bg: #4a1f27;
+  --alert-danger-text: #ffb8c3;
+  --alert-danger-border: #70232e;
+}
+
+/* Container */
+.topic-form {
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  padding: 1.5rem;
+  box-shadow: var(--card-shadow);
+  margin-bottom: 2rem;
+  transition: background-color 0.3s ease;
+}
+
+/* Spacing utilities */
+.mb-3 {
+  margin-bottom: 1rem !important;
+}
+
+/* Alert styles */
+.alert-danger {
+  background-color: var(--alert-danger-bg);
+  color: var(--alert-danger-text);
+  padding: 0.75rem;
+  border-radius: 4px;
+  margin-bottom: 1rem;
+  border: 1px solid var(--alert-danger-border);
+}
+
+/* Form controls */
+.form-control {
+  display: block;
+  width: 100%;
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  color: var(--text-primary);
+  background-color: var(--background-secondary);
+  border: 1px solid var(--text-secondary);
+  border-radius: 0.25rem;
+  transition: all 0.3s ease;
+}
+
+.form-control:focus {
+  border-color: var(--accent-primary);
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(42, 93, 171, 0.25);
+}
+
+/* Radio button group */
+.radio-group {
+  display: flex;
+  gap: 1rem;
+  margin-top: 0.5rem;
+}
+
+.radio-option {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.radio-input[type="radio"] {
+  width: 18px;
+  height: 18px;
+  accent-color: var(--accent-primary);
+}
+
+.form-check-inline {
+  display: inline-flex;
+  align-items: center;
+  padding-left: 0;
+  margin-right: 0.75rem;
+}
+
+.form-check-label {
+  margin-bottom: 0;
+  cursor: pointer;
+}
+
+/* Button container */
+.d-flex {
+  display: flex !important;
+}
+
+.justify-content-end {
+  justify-content: flex-end !important;
+}
+
+.gap-2 {
+  gap: 0.5rem !important;
+}
+
+/* Button styles */
+.btn {
+  padding: 12px 25px;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  border: none;
+  font-size: 1rem;
+}
+
+.btn-primary {
+  background-color: var(--button-primary);
+  color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+  background-color: var(--button-hover);
+  transform: translateY(-2px);
+}
+
+/* Loading spinner */
+.spinner-border {
+  display: inline-block;
+  width: 1rem;
+  height: 1rem;
+  vertical-align: text-bottom;
+  border: 0.2em solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: spin 0.75s linear infinite;
+}
+
+.spinner-border-sm {
+  width: 0.8rem;
+  height: 0.8rem;
+  border-width: 0.15em;
+}
+
+.me-2 {
+  margin-right: 0.5rem !important;
+}
+
+/* Disabled state */
+:disabled {
+  opacity: 0.65;
+  cursor: not-allowed;
+  transform: none !important;
+}
+
+/* Animations */
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .topic-form {
+    padding: 1rem;
+  }
+  
+  .form-control {
+    padding: 0.5rem;
+    font-size: 0.9rem;
+  }
+  
+  .radio-group {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+}
