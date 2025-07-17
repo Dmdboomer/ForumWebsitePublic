@@ -9,6 +9,10 @@ const PORT = process.env.PORT || 5000;
 
 const session = require('express-session');
 const MySQLStore = require('express-mysql-session')(session);
+const isProduction = process.env.NODE_ENV === 'production';
+const path = require('path');
+const serveStatic = require('serve-static');
+
 
 // 1. Enhanced Session Store Configuration [1,3](@ref)
 const sessionStore = new MySQLStore({
@@ -27,8 +31,10 @@ const sessionStore = new MySQLStore({
 
 // 2. Proper CORS Configuration [6,8](@ref)
 const corsOptions = {
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true, // ✅ Allow credentials
+  origin: isProduction 
+    ? process.env.FRONTEND_PROD_URL 
+    : process.env.FRONTEND_DEV_URL || 'http://localhost:3000',
+  credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 };
 app.use(cors(corsOptions)); // Apply CORS middleware
@@ -77,7 +83,14 @@ app.get('/session-info', (req, res) => {
 async function startServer() {
   try {
     await initializeDatabase();
-    
+    if (isProduction) {
+      app.use(serveStatic(path.join(__dirname, '../algorithm-app/build')));
+      
+      // Handle React routing, return all requests to React app
+      app.get('*', (req, res) => {
+        res.sendFile(path.join(__dirname, '../algorithm-app/build', 'index.html'));
+      });
+    }
     app.use('/api', apiRoutes);
 
     // 5. Error Handling Middleware
@@ -86,7 +99,7 @@ async function startServer() {
       res.status(500).json({ error: 'Internal server error' });
     });
 
-    app.listen(PORT, () => {
+    app.listen(PORT, '0.0.0.0', () => {
       console.log(`🚀 Server running on port ${PORT}`);
       console.log(`🔒 Session storage: MySQL `);
     });
@@ -96,4 +109,17 @@ async function startServer() {
   }
 }
 
+const testConnection = async () => {
+  try {
+    const [result] = await db.query('SHOW STATUS LIKE "Threads_connected"');
+    console.log('✅ Connection successful. Active threads:', result[0].Value);
+  } catch (err) {
+    console.error('❌ Connection failed:', err.message);
+    if (err.code === 'ETIMEDOUT') {
+      console.log('Check security groups/VPC settings [12,4](@ref)');
+    }
+  }
+};
+
+testConnection();
 startServer();
