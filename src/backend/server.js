@@ -83,6 +83,7 @@ app.get('/session-info', (req, res) => {
 async function startServer() {
   try {
     await initializeDatabase();
+    app.use('/api', apiRoutes);
     if (isProduction) {
       app.use(serveStatic(path.join(__dirname, '../algorithm-app/build')));
       
@@ -91,7 +92,7 @@ async function startServer() {
         res.sendFile(path.join(__dirname, '../algorithm-app/build', 'index.html'));
       });
     }
-    app.use('/api', apiRoutes);
+    
 
     // 5. Error Handling Middleware
     app.use((err, req, res, next) => {
