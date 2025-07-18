@@ -2,6 +2,7 @@
 
 # dependencies
 /node_modules/
+**/node_modules/.cache/
 /.pnp
 .pnp.js
 
@@ -25,6 +26,6 @@ yarn-error.log*
 
 #configuration files
 /config/
-keypair1.pem
-localhost+1.pem
-localhost+1-key.pem
+keypair1.pem/
+localhost+1.pem/
+localhost+1-key.pem/
