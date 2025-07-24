@@ -1,14 +1,14 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import '../../CodeCSS/App.css';
+import '../../CodeCSS/DashboardPage.css';
 
 const Dashboard = () => {
   const menuItems = [
+    { path: "/", icon: "🏠", label: "Home", className: "dashboard-link landing-page" },
     { path: "/profile", icon: "👤", label: "Profile" },
     { path: "/settings", icon: "⚙️", label: "Settings" },
     { path: "/about", icon: "ℹ️", label: "About Us" },
-    { path: "/help", icon: "❓", label: "Help" },
-    { path: "/", icon: "🏠", label: "Home", className: "dashboard-link landing-page" }
+    { path: "/help", icon: "❓", label: "Help" }
   ];
 
   return (

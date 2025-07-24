@@ -25,7 +25,7 @@ exports.createRoot = async (req, res) => {
         
         const nodesSql = `INSERT INTO nodes 
                           (leaf_count_in_subtree, popularity, title, content, non_null_leaf_count, allChildrenCompleted) 
-                          VALUES (0, 0.5, ?, ?, 0, 0)`;
+                          VALUES (2, 0.5, ?, ?, 0, 0)`;
         
         // Execute SQL with parameterized query
         const [result] = await db.query(nodesSql, [title, content]);

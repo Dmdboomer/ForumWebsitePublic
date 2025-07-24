@@ -110,8 +110,8 @@ const TreeNodeContent = ({ node, depth = 0, isExpanded, onExpand, path }) => {
           )}
           {node.children?.length > 0 && !isLeaf && (
             <span className="bg-gray-100 text-gray-800 text-xs px-2 py-1 rounded">
-              {node.children.length} children | 
-              {node.leaf_count_in_subtree} sub-nodes
+              {node.children.length} children ||
+              {node.leaf_count_in_subtree / 2} Leafs
             </span>
           )}
         </div>

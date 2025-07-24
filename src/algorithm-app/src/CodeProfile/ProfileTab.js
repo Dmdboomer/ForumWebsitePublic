@@ -1,6 +1,9 @@
 import React from 'react';
+import { useAuth } from '../CodeLoginAuth/context/AuthContext';
 
 const ProfileTab = ({ profile, handleChange, handleSubmit }) => {
+  const {user} = useAuth()
+
   return (
     <form onSubmit={handleSubmit} className="profile-form">
       <div className="form-group">
@@ -8,9 +11,10 @@ const ProfileTab = ({ profile, handleChange, handleSubmit }) => {
         <input 
           type="text" 
           name="name"
-          value={profile.name}
+          value={user.username}
           onChange={handleChange}
           className="form-control"
+          disabled
         />
       </div>
 
@@ -19,7 +23,7 @@ const ProfileTab = ({ profile, handleChange, handleSubmit }) => {
         <input 
           type="email" 
           name="email"
-          value={profile.email}
+          value={user.email}
           onChange={handleChange}
           className="form-control"
           disabled
@@ -30,24 +34,12 @@ const ProfileTab = ({ profile, handleChange, handleSubmit }) => {
         <label>Bio</label>
         <textarea 
           name="bio"
-          value={profile.bio}
+          value={user.bio}
           onChange={handleChange}
           className="form-control"
           rows="3"
         />
       </div>
-
-      <div className="form-group checkbox-group">
-        <input 
-          type="checkbox" 
-          id="notificationsEnabled" 
-          name="notificationsEnabled"
-          checked={profile.notificationsEnabled}
-          onChange={handleChange}
-        />
-        <label htmlFor="notificationsEnabled">Email notifications</label>
-      </div>
-
       <div className="form-actions">
         <button type="submit" className="btn btn-primary">Save Changes</button>
         <button type="button" className="btn btn-secondary">Cancel</button>

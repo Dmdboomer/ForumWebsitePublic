@@ -23,19 +23,23 @@ const NodeDetails = ({ node}) => {
       <p className="lead text-secondary">Popularity: {node.popularity}</p>
       <p className="lead text-secondary">You are: {user?.username || 'Guest'}</p>
       <p className="lead text-secondary">Likes: {node.likes}</p>
-      
+      <ScoreBar 
+        score={node.score} 
+        height={10}
+        color="#74f96b"
+        label="Weighted Average Score"
+      />
       <ScoreBar 
         score={node.popularity} 
         height={10}
         color="#f0ac29"
         label="Popularity"
       />
-
       <ScoreBar 
-        score={node.score} 
+        score={node.non_null_leaf_count / (node.leaf_count_in_subtree / 2) } 
         height={10}
         color="#4285F4"
-        label="Weighted Average Score"
+        label="Completed Leaf Percentage"
       />
     </div>
   </div>

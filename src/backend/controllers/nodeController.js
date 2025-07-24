@@ -123,7 +123,7 @@ exports.createNode = async (req, res) => {
     const [result] = await db.query(
       `INSERT INTO nodes (parent_id, leaf_count_in_subtree, popularity, title, content, statementTrueFalseFlag, non_null_leaf_count, allChildrenCompleted)
         VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [parent_id, 0, 0.5 , title, content, statementTrueFalseFlag, 0, 0]
+      [parent_id, 2, 0.5 , title, content, statementTrueFalseFlag, 0, 0]
     );
     childIds.push(result.insertId);
 

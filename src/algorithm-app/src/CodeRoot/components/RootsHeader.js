@@ -2,8 +2,8 @@ import React from 'react';
 
 const RootsHeader = () => (
   <div className="roots-header">
-    <h1>Knowledge Tree</h1>
-    <p>Explore topics and build your knowledge graph</p>
+    <h1>TBA.com Knowledge Tree</h1>
+    <p>Discuss statements and contribute to real-life Topics</p>
   </div>
 );
 

@@ -1,5 +1,6 @@
 export const updateAncestorNewNode = async (startId, db) => {
   let currentId = startId;
+  console.log("Updating ancestors...");
   
   while (currentId) {
     // leaf count +1

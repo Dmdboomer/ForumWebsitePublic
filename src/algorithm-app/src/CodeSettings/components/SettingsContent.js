@@ -2,9 +2,11 @@
 import React from 'react';
 import {useTheme} from '../context/ThemeContext'
 import '../nonGlobalStyles/Settings.css';
+import { useAuth } from '../../CodeLoginAuth/context/AuthContext';
 
 const SettingsContent = ({ activeTab }) => {
   const { currentTheme, setTheme, isLoading } = useTheme();
+  const{user} = useAuth();
 
   const renderContent = () => {
     switch (activeTab) {
@@ -16,16 +18,13 @@ const SettingsContent = ({ activeTab }) => {
             <div className="settings-item">
               <label>Default View</label>
               <select>
-                <option>Dashboard</option>
-                <option>Projects</option>
-                <option>Activity</option>
+                <option>Home</option>
               </select>
             </div>
             <div className="settings-item">
               <label>Time Zone</label>
               <select>
-                <option>(UTC-05:00) Eastern Time</option>
-                <option>(UTC-08:00) Pacific Time</option>
+                <option>(UTC+08:00) China Time</option>
               </select>
             </div>
           </div>
@@ -38,11 +37,11 @@ const SettingsContent = ({ activeTab }) => {
             <p>Manage your account information</p>
             <div className="settings-item">
               <label>Email Address</label>
-              <input type="email" defaultValue="user@example.com" />
+              <input type="email" defaultValue={user.email} disabled/>
             </div>
             <div className="settings-item">
               <label>Password</label>
-              <input type="password" placeholder="Change password" />
+              <input type="password" placeholder="Change password" disabled/>
             </div>
           </div>
         );
@@ -52,11 +51,6 @@ const SettingsContent = ({ activeTab }) => {
           <div>
             <h2>Privacy Settings</h2>
             <p>Control your data privacy and sharing preferences</p>
-            <div className="settings-item">
-              <label>Data Sharing</label>
-              <input type="checkbox" id="data-sharing" />
-              <label htmlFor="data-sharing">Allow anonymous usage data collection</label>
-            </div>
           </div>
         );
       

@@ -1,0 +1,100 @@
+/* Cards */
+.roots-grid,
+.trending-section {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  margin-top: 20px;
+}
+
+.root-card {
+  background-color: var(--background-secondary);
+  border-radius: 8px;
+  box-shadow: var(--card-shadow);
+  transition: all 0.3s ease;
+  height: 100%;
+  position: relative;
+}
+
+.root-card:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--card-shadow-hover);
+}
+
+.root-link {
+  display: block;
+  padding: 25px;
+  text-decoration: none;
+  color: inherit;
+}
+
+.root-icon {
+  font-size: 2.5rem;
+  text-align: left;
+  margin-bottom: 15px;
+}
+
+.root-info {
+  text-align: center;
+}
+
+.root-title {
+  color: var(--text-accent);
+  font-size: 1.3rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+}
+
+.root-meta {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  font-size: 0.9rem;
+  color: var(--text-secondary);
+}
+.dropdown-toggle {
+  color: var(--text-primary);
+  background: none;
+  border: none;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 5px;
+  line-height: 1;
+}
+
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: 100%; 
+  margin-top: 5px; 
+
+  /* --- Styling --- */
+  background: var(--background-secondary); /* Use theme variable */
+  color: var(--text-primary); /* Use theme variable */
+  border: 1px solid var(--text-secondary); /* Use theme variable */
+  border-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  min-width: 120px; 
+  z-index: 100;
+
+}
+
+/* Style the items within the dropdown */
+.dropdown-item {
+  display: block;
+  width: 100%;
+  text-align: left;
+  padding: 8px 16px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--text-primary);
+  font-family: inherit;
+  font-size: inherit;
+  z-index: 100;
+}
+
+.dropdown-item:hover {
+  background-color: var(--dashboard-link-hover); 
+  transition: background-color 0.2s ease;
+}

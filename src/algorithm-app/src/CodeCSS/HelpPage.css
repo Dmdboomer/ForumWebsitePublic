@@ -1,0 +1,27 @@
+/* Help.css */
+
+/* Style to preserve newlines and wrap text */
+.preserve-newlines {
+  white-space: pre-line; /* This does the trick */
+  /* Optional: Add other styling like margin or padding if needed */
+  margin-top: 0.5em; /* Example */
+}
+
+/* Optional: Style the FAQ items a bit */
+.faq-item {
+  margin-bottom: 1.5em; /* Add space between questions */
+  padding: 1em;
+  border-radius: 8px;
+  background-color: var(--backround); /* Light background */
+  box-shadow: 0 2px 4px rgba(0,0,0,0.05); /* Subtle shadow */
+}
+
+.faq-item h4 {
+  margin-top: 0;
+  color: var(--accent-primary); /* Darker color for question */
+}
+
+.faq-item p {
+  margin-bottom: 0;
+  color: var(--text-primary); /* Slightly darker color for answer */
+}
