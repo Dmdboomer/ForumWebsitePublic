@@ -10,7 +10,7 @@ import RootsGrid from '../components/RootsGrid';
 import CreateRootModal from '../components/CreateRootModal';
 import LoadingState from '../components/LoadingState';
 import { fetchRoots } from '../services/rootAPI';
-import '../../CodeCSS/App.css';
+import '../../CodeCSS/RootPage.css';
 
 const RootsPage = () => {
   const { id } = useParams();
@@ -21,7 +21,7 @@ const RootsPage = () => {
   const [showCreateForm, setShowCreateForm] = React.useState(false);
   const [sortOption, setSortOption] = React.useState('latest');
   const [searchParams, setSearchParams] = React.useState({});
-  
+
   const {
     dashboardOpen,
     handleHoverEnter,
@@ -84,7 +84,7 @@ const RootsPage = () => {
         handleDashboardLeave={handleDashboardLeave}
       />
 
-      <main className="roots-container">
+      <div className="roots-container">
         <RootsHeader />
         
         <SearchBar 
@@ -105,8 +105,8 @@ const RootsPage = () => {
           />
         )}
 
-        <RootsGrid roots={sortedRoots} />
-      </main>
+        <RootsGrid roots={sortedRoots}/>
+      </div>
     </div>
   );
 };

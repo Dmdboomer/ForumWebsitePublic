@@ -1,5 +1,6 @@
 import React from 'react';
 import RootCard from './RootCard';
+import '../../CodeCSS/RootPage.css'
 
 const RootsGrid = ({ roots }) => {
   if (roots.length === 0) {

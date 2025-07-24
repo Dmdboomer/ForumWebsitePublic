@@ -133,7 +133,7 @@ const ScoreBar = ({
             marginTop: 4
           }}
         >
-          {score !== null && score !== undefined ? `${score}/${max}` : 'N/A'}
+          {score !== null && score !== undefined ? `${score}%` : 'N/A'}
         </div>
       )}
     </div>

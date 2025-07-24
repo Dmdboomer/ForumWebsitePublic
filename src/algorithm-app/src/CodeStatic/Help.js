@@ -51,7 +51,7 @@ If the Attempt is found to go against your reaction by an admin, you could be mu
         },
         {
           q: `Why can I not create any children if there are already children`,
-          a: `Only 2 children are allowed per node in order to reduce duplicate arguements/ semantically similar nodes` // Note: Typo 'arguements' -> 'arguments'
+          a: `Only 2 children are allowed per node in order to reduce duplicate arguements/ semantically similar nodes (So long as you do not repeat a direct parent)`
         },
         {
           q: `Why can I not create any children if the node is completed`,

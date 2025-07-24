@@ -2,12 +2,13 @@ import React, { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ScoreBar from '../../utils/visuals/ScoreBar';
 import { saveNode } from '../../CodeProfile/services/profileAPI'; // Adjust import path as needed
-import '../../CodeCSS/App.css'
 import '../../CodeCSS/RootPage.css'
+import { useAuth } from '../../CodeLoginAuth/context/AuthContext';
 
-const RootCard = ({ root, userUUID }) => {
+const RootCard = ({ root }) => {
   const [dropdownOpen, setDropdownOpen] = useState(false);
   const dropdownRef = useRef(null);
+  const {user} = useAuth();
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -22,13 +23,13 @@ const RootCard = ({ root, userUUID }) => {
   }, []);
 
   const handleSave = async () => {
-    if (!userUUID) {
+    if (!user.UUID) {
       alert('Please log in to save nodes');
       return;
     }
 
     try {
-      await saveNode(userUUID, root.id);
+      await saveNode(user.UUID, root.id);
       alert('Node saved successfully!');
       setDropdownOpen(false);
     } catch (error) {
@@ -37,7 +38,7 @@ const RootCard = ({ root, userUUID }) => {
   };
 
   return (
-    <div className="root-card">
+    <div className={`root-card ${dropdownOpen ? 'dropdown-open' : ''}`}>
       <Link to={`/node/${root.id}`} className="root-link">
         <span>
           <h3 className="root-title">{root.title}  📚</h3>
@@ -74,35 +75,6 @@ const RootCard = ({ root, userUUID }) => {
             )}
         </div>
       </Link>
-      
-      <div className="root-actions" ref={dropdownRef}>
-        <button 
-          className="dropdown-toggle"
-          onClick={(e) => {
-            console.log("Dropdown Open State:", dropdownOpen)
-            e.preventDefault();
-            e.stopPropagation();
-            setDropdownOpen(!dropdownOpen);
-          }}
-        >
-          ⋮
-        </button>
-        
-        {dropdownOpen && (
-          <div className="dropdown-menu">
-            <button 
-              className="dropdown-item"
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                handleSave();
-              }}
-            >
-              Save
-            </button>
-          </div>
-        )}
-      </div>
     </div>
   );
 };

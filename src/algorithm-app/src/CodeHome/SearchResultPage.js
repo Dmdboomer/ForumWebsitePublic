@@ -87,16 +87,14 @@ const SearchResultsPage = () => {
                 {results.map(result => (
                   <div key={result.id} className="result-card">
                     <a href={`/node/${result.id}`} className="result-link">
-                      <div className="result-icon">📚</div>
                       <div className="result-content">
                         <h3 className="result-title">{result.title}</h3>
                         <div className="result-meta">
-                          <span>Leaves: {result.leafCount || 0}</span>
-                          <span>Popularity: {result.popularity}</span>
+                          <span>Leaves: {result.leaf_count_in_subtree || 0}</span>
                           <ScoreBar 
-                            score={(result.score*100).toFixed(2)} 
-                            height={10}
-                            color="#4285F4"
+                            score={(result.score)} 
+                            height={5}
+                            color="#74f96b"
                             label="Weighted Average Score"
                           />
                           {result.date && <span>Date: {new Date(result.date).toLocaleDateString()}</span>}
