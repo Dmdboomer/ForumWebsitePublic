@@ -2,7 +2,12 @@
 const bcrypt = require('bcrypt');
 const db = require('../db');
 const { OAuth2Client } = require('google-auth-library');
-const client = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
+isProduction = process.env.NODE_ENV === 'production'
+const clientId = isProduction 
+  ? process.env.GOOGLE_CLIENT_ID_PROD 
+  : process.env.GOOGLE_CLIENT_ID_DEV;
+
+const client = new OAuth2Client(clientId);
 
 module.exports = {
   checkSession: async (req, res) => {
@@ -120,7 +125,9 @@ module.exports = {
     try {
       const ticket = await client.verifyIdToken({
         idToken: token,
-        audience: process.env.GOOGLE_CLIENT_ID
+        audience: isProduction
+          ? process.env.GOOGLE_CLIENT_ID_PROD
+          : process.env.GOOGLE_CLIENT_ID_DEV
       });
 
       const payload = ticket.getPayload();

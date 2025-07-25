@@ -31,16 +31,16 @@ const sessionStore = new MySQLStore({
 
 // 2. Proper CORS Configuration [6,8](@ref)
 const corsOptions = {
-  origin: isProduction 
-    ? process.env.FRONTEND_PROD_URL 
-    : process.env.FRONTEND_DEV_URL || 'http://localhost:3000',
+  origin: true, //isProduction 
+    //? process.env.FRONTEND_PROD_URL 
+    //: process.env.FRONTEND_DEV_URL || 'http://localhost:3000',
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE']
 };
 app.use(cors(corsOptions)); // Apply CORS middleware
 
 app.use(express.json());
-
+app.set('trust proxy', 1);
 // 3. Session Middleware with Security Enhancements [3,5](@ref)
 app.use(session({
   secret: process.env.SESSION_SECRET || 'fallback_strong_secret', // Mandatory [7,8,10](@ref)
@@ -49,8 +49,11 @@ app.use(session({
   store: sessionStore, // Your existing MySQLStore
   cookie: {
     secure: process.env.NODE_ENV === 'production', // HTTPS in production
+    https: true,
     maxAge: 24 * 60 * 60 * 1000, // 24 hours
-    sameSite: 'lax'
+    sameSite: isProduction
+      ? 'none'
+      : 'lax'
   }
 }));
 

@@ -8,6 +8,11 @@ import { GoogleOAuthProvider, GoogleLogin } from '@react-oauth/google';
 
 
 const AuthPage = () => {
+  const isProduction = process.env.REACT_APP_ENV === 'production';
+
+
+
+  const clientId = isProduction ? process.env.REACT_APP_GOOGLE_CLIENT_ID_PROD : process.env.REACT_APP_GOOGLE_CLIENT_ID_DEV;
   const location = window.location.pathname;
   const [authType, setAuthType] = useState(location.includes('signup') ? 'signup' : 'login');
   const [name, setName] = useState('');
@@ -71,7 +76,7 @@ const AuthPage = () => {
           >
             Sign Up
           </button>
-          <GoogleOAuthProvider clientId={process.env.REACT_APP_GOOGLE_CLIENT_ID}>
+          <GoogleOAuthProvider clientId={clientId}>
             <GoogleLogin
               onSuccess={handleGoogleSuccess}
               onError={() => setError('Google login failed LOL')}
