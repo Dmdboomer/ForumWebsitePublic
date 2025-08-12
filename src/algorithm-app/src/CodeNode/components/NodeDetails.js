@@ -1,14 +1,58 @@
 // NodeDetails.js
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import ScoreBar from '../../utils/visuals/ScoreBar';
 import '../nonGlobalStyle/NodeDetails.css';
 import { useAuth } from '../../CodeLoginAuth/context/AuthContext';
+import { saveNode, unSaveNode, isNodeSaved } from '../../CodeProfile/services/profileAPI'; // Import APIs
+
 
 const NodeDetails = ({ node}) => {
-  const {user} = useAuth()
+  const { user } = useAuth();
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const UUID = user?.UUID;
+
+  // Check if node is already bookmarked
+  useEffect(() => {
+    if (UUID && node?.id) {
+      isNodeSaved( node.id)
+        .then(saved => setIsBookmarked(saved))
+        .catch(console.error);
+    }
+  }, [UUID, node?.id]);
+
+  const toggleBookmark = async () => {
+    if (!user) return;
+    try {
+      if (isBookmarked) {
+        await unSaveNode( node.id);
+      } else {
+        await saveNode( node.id);
+      }
+      setIsBookmarked(!isBookmarked);
+    } catch (error) {
+      console.error('Bookmark error:', error);
+    }
+  };
 
   return (
   <div className="node-detail mb-4">
+    <button 
+        onClick={toggleBookmark}
+        className="bookmark-btn"
+        style={{
+          position: 'absolute',
+          top: '10px',
+          right: '10px',
+          background: 'none',
+          border: 'none',
+          cursor: 'pointer',
+          fontSize: '24px',
+          color: isBookmarked ? '#f0ac29' : '#ccc'
+        }}
+        title={isBookmarked ? "Remove bookmark" : "Bookmark this node"}
+      >
+        {isBookmarked ? '★' : '☆'}
+      </button>
     <div className="card-body">
       <h1 className="card-title text-accent">
         {node.title || `Node ${node.id}`}: 

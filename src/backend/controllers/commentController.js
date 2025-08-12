@@ -3,7 +3,7 @@ const db = require('../db');
 // Update getComments to include endorsement/report status
 exports.getComments = async (req, res) => {
   const nodeId = req.params.id;
-  const userId = req.query.userId;
+  const UUID = req.session.userId
   if (!nodeId) return res.status(400).json({ error: "Missing node ID" });
 
   try {
@@ -22,7 +22,7 @@ exports.getComments = async (req, res) => {
       WHERE c.node_id = ?
     `;
 
-    const [rows] = await db.query(query, [userId, userId, nodeId]);
+    const [rows] = await db.query(query, [UUID, UUID, nodeId]);
     res.json(rows);
   } catch (err) {
     console.error('Error fetching comments:', err);
@@ -64,7 +64,7 @@ exports.createComment = async (req, res) => {
 // Helper function to handle reactions (add/remove)
 const handleReaction = async (req, res, type, action, successMsg) => {
   const { cid: commentId } = req.params;
-  const { uid: userId } = req.params;
+  const UUID = req.session.userId
 
   try {
     if (action === 'add') {
@@ -72,7 +72,7 @@ const handleReaction = async (req, res, type, action, successMsg) => {
         `SELECT 1 
          FROM comment_reactions 
          WHERE comment_id = ? AND user_id = ?`,
-        [commentId, userId]
+        [commentId, UUID]
       );
       
       if (existing.length) {
@@ -83,14 +83,14 @@ const handleReaction = async (req, res, type, action, successMsg) => {
         `INSERT INTO comment_reactions 
          (comment_id, user_id, reaction_type) 
          VALUES (?, ?, ?)`,
-        [commentId, userId, type]
+        [commentId, UUID, type]
       );
     } 
     else { // 'remove' action
       await db.query(
         `DELETE FROM comment_reactions 
          WHERE comment_id = ? AND user_id = ?`,
-        [commentId, userId]
+        [commentId, UUID]
       );
     }
     

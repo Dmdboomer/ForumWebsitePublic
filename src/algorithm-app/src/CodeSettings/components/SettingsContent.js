@@ -37,7 +37,11 @@ const SettingsContent = ({ activeTab }) => {
             <p>Manage your account information</p>
             <div className="settings-item">
               <label>Email Address</label>
-              <input type="email" defaultValue={user.email} disabled/>
+              <input 
+                type="email" 
+                placeholder={user ? user.email || 'please login' : 'please login'}
+                disabled 
+              />
             </div>
             <div className="settings-item">
               <label>Password</label>

@@ -2,11 +2,11 @@
 import axios from 'axios';
 
 
-export const createTopic = async (title, content) => {
+export const createTopic = async (title, content, UUID) => {
   try {
     const response = await axios.post(
       `/api/roots`,
-      { title, content },
+      { title, content, UUID},
       {
         headers: { 'Content-Type': 'application/json' }
       }

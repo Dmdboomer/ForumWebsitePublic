@@ -11,7 +11,7 @@ const ProfileTab = ({ profile, handleChange, handleSubmit }) => {
         <input 
           type="text" 
           name="name"
-          value={user.username}
+          value={user ? user.username || 'holdon' : 'please login'}
           onChange={handleChange}
           className="form-control"
           disabled
@@ -23,7 +23,7 @@ const ProfileTab = ({ profile, handleChange, handleSubmit }) => {
         <input 
           type="email" 
           name="email"
-          value={user.email}
+          value={user ? user.email || 'holdon' : 'please login'}
           onChange={handleChange}
           className="form-control"
           disabled
@@ -34,7 +34,7 @@ const ProfileTab = ({ profile, handleChange, handleSubmit }) => {
         <label>Bio</label>
         <textarea 
           name="bio"
-          value={user.bio}
+          value={user ? user.email || 'hold on' : 'please login'}
           onChange={handleChange}
           className="form-control"
           rows="3"

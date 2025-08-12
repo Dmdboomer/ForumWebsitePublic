@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../CodeLoginAuth/context/AuthContext';
-import { fetchSavedNodes, saveNode } from './services/profileAPI';
+import { fetchSavedNodes, saveNode, unSaveNode } from './services/profileAPI';
 
 const SavedNodesTab = () => {
   const { user } = useAuth();
@@ -10,6 +10,7 @@ const SavedNodesTab = () => {
   const [newNodeId, setNewNodeId] = useState('');
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
+  const [unsaving, setUnsaving] = useState({}); // Track unsaving state per node
   const [error, setError] = useState(null);
 
   useEffect(() => {
@@ -22,8 +23,9 @@ const SavedNodesTab = () => {
 
   const fetchSavedNodesList = async () => {
     try {
-      const data = await fetchSavedNodes(user.UUID);
-      setSavedNodes(data.map(item => item.node_id));
+      const data = await fetchSavedNodes();
+      // Store nodes as objects with node_id property
+      setSavedNodes(data);
       setError(null);
     } catch (err) {
       setError(err.message);
@@ -40,13 +42,35 @@ const SavedNodesTab = () => {
     setError(null);
     
     try {
-      await saveNode(user.UUID, newNodeId.trim());
+      await saveNode( newNodeId.trim());
+      // Refresh the list after saving
       await fetchSavedNodesList();
       setNewNodeId('');
     } catch (err) {
       setError(err.message);
     } finally {
       setSaving(false);
+    }
+  };
+
+  // Add unsave functionality
+  const handleUnsave = async (nodeId) => {
+    setUnsaving(prev => ({ ...prev, [nodeId]: true }));
+    setError(null);
+    
+    try {
+      await unSaveNode( nodeId);
+      // Optimistically update UI without refetching
+      setSavedNodes(prev => prev.filter(item => item.node_id !== nodeId));
+    } catch (err) {
+      setError(`Failed to unsave node: ${err.message}`);
+      console.error('Unsave error:', err);
+    } finally {
+      setUnsaving(prev => {
+        const newState = { ...prev };
+        delete newState[nodeId];
+        return newState;
+      });
     }
   };
 
@@ -70,13 +94,24 @@ const SavedNodesTab = () => {
       <div className="saved-nodes-list">
         {savedNodes.length > 0 ? (
           <ul className="divide-y">
-            {savedNodes.map((nodeId, index) => (
+            {savedNodes.map((item) => (
               <li 
-                key={index} 
-                onClick={() => handleNodeClick(nodeId)}
-                className="p-4 hover:bg-gray-50 cursor-pointer transition-colors duration-150"
+                key={item.node_id}
+                className="p-4 hover:bg-gray-50 transition-colors duration-150 flex justify-between items-center"
               >
-                {nodeId}
+                <span 
+                  onClick={() => handleNodeClick(item.node_id)}
+                  className="cursor-pointer flex-grow hover:text-blue-600"
+                >
+                  {item.node_id}
+                </span>
+                <button
+                  onClick={() => handleUnsave(item.node_id)}
+                  disabled={unsaving[item.node_id]}
+                  className="ml-4 bg-red-100 text-red-700 px-3 py-1 rounded text-sm hover:bg-red-200 focus:outline-none focus:ring-1 focus:ring-red-500 disabled:opacity-50"
+                >
+                  {unsaving[item.node_id] ? 'Removing...' : 'Remove'}
+                </button>
               </li>
             ))}
           </ul>

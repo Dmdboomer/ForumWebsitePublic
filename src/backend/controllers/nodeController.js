@@ -141,7 +141,7 @@ exports.createNode = async (req, res) => {
 
 const handleReaction = async (req, res, type, action, successMsg) => {
   const { id: nodeId } = req.params;
-  const { uid: UUID } = req.params;
+  const UUID = req.session.userId;
 
   try {
     if (action === 'add') {
@@ -281,54 +281,3 @@ exports.completeNode = async (req, res) => {
     res.status(500).json({ error: 'Internal server error' });
   }
 };
-
-
-exports.getPermissions = async (req, res) => {
-  const node_id = req.body;
-  try {
-    const [allPermissions] = await db.query(
-      'SELECT * FROM node_privacy WHERE node_id = ?', 
-      [node_id]
-    );
-    res.json(allPermissions);
-
-  } catch (err) {
-    res.status(500).json({ error: 'error' });
-  }
-};
-
-exports.changePermissions = async (req, res) => {
-  const {UUID, node_id, newUUID, permission_type} = req.body;
-  try {
-    current = node_id;
-    while (!(parent_id === null)){
-      const [parent_id] = await db.query(
-        'SELECT parent_id FROM nodes WHERE node_id = ?', 
-        [node_id]
-      );
-      current = parent_id.parent_id
-    }
-    root_id = current;
-
-    const [userPermissions] = await db.query(
-      'SELECT * FROM node_privacy WHERE node_id = ? AND UUID = ?', 
-      [root_id, UUID]
-    );
-    if (!userPermissions.permission_type ===1){
-      return "You do not have access to do this"
-    }
-    await db.query(
-      `INSERT INTO node_privacy 
-      (UUID, node_id, permission_type)
-      VALUES(? ? ?)
-      `,
-      [newUUID, root_id, permission_type]
-    )
-    return "success";
-
-  } catch (err) {
-    res.status(500).json({ error: 'error' });
-  }
-};
-
-

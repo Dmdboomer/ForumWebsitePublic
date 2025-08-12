@@ -3,12 +3,14 @@ import React, { useState } from 'react';
 import { createTopic } from '../services/rootAPI'; // Import the API function
 import { } from 'react-router-dom';
 import PrivateRoute from '../../CodeLoginAuth/components/PrivateRoute';
+import { useAuth } from '../../CodeLoginAuth/context/AuthContext';
 
 const CreateTopic = ({ onClose, onCancel }) => {
   const [title, setTitle] = useState('');
   const [content, setContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
+  const {user} = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -16,7 +18,7 @@ const CreateTopic = ({ onClose, onCancel }) => {
     setError('');
     
     try {
-      await createTopic(title, content);
+      await createTopic(title, content, user.UUID);
       onClose();
     } catch (error) {
       console.error('Error creating topic:', error);

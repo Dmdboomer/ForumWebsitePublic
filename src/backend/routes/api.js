@@ -20,7 +20,7 @@ const {getTree} = require('../controllers/treeController');
 const {getSearch} = require('../controllers/searchController');
 const authController = require('../controllers/authController');
 const {updateTheme, getTheme} = require('../controllers/settingsController');
-const { getSaved, createSave } = require('../controllers/profileController');
+const { getSaved, createSave, isSaved, unSave } = require('../controllers/profileController');
 
 // Root endpoints
 router.get('/roots/:id', getRoots);
@@ -34,10 +34,10 @@ router.get('/nodes/:id/children', getChildren);
 router.post('/nodes', createNode);
 router.get('/nodes/:id/path', getPathToRoot);
 router.post('/nodes/:id/complete', completeNode);
-router.post('/nodes/:id/like/:uid', likeNode);
-router.post('/nodes/:id/dislike/:uid', dislikeNode);
-router.post('/nodes/:id/unlike/:uid', unlikeNode);
-router.post('/nodes/:id/undislike/:uid', undislikeNode);
+router.post('/nodes/:id/like/', likeNode);
+router.post('/nodes/:id/dislike/', dislikeNode);
+router.post('/nodes/:id/unlike/', unlikeNode);
+router.post('/nodes/:id/undislike/', undislikeNode);
 
 // Tree visual
 router.get('/nodes/:id/tree', getTree);
@@ -45,13 +45,13 @@ router.get('/nodes/:id/tree', getTree);
 router.route('/nodes/:id/comments')
   .get(getComments)
   .post(createComment)
-router.route('/nodes/:id/comments/:cid/endorse/:uid')
+router.route('/nodes/:id/comments/:cid/endorse')
   .post(endorseComment)
-router.route('/nodes/:id/comments/:cid/report/:uid')
+router.route('/nodes/:id/comments/:cid/report')
   .post(reportComment)
-router.route('/nodes/:id/comments/:cid/unendorse/:uid')
+router.route('/nodes/:id/comments/:cid/unendorse')
   .post(unendorseComment)
-router.route('/nodes/:id/comments/:cid/unreport/:uid')
+router.route('/nodes/:id/comments/:cid/unreport')
   .post(unreportComment)
 router.get('/nodes/:id/comments/:cid/endorse/count', getCommentEndorseCount);
 router.get('/nodes/:id/comments/:cid/report/count', getCommentReportCount);
@@ -68,6 +68,8 @@ router.post('/auth/google', authController.googleAuth);
 // user APIs
 router.post('/saved', getSaved);
 router.post('/save', createSave);
+router.post('/unsave', unSave);
+router.post('/is-saved', isSaved);
 
 // settings Apis
 router.post('/theme', updateTheme);

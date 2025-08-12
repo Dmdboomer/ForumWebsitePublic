@@ -1,11 +1,9 @@
 // src/services/commentsAPI.js
 import axios from 'axios';
 
-export const fetchComments = async (nodeId, userId = null) => {
+export const fetchComments = async (nodeId) => {
   try {
-    const response = await axios.get(`/api/nodes/${nodeId}/comments`, {
-      params: { userId }
-    });
+    const response = await axios.get(`/api/nodes/${nodeId}/comments`);
     return response.data;
   } catch (error) {
     throw new Error(error.response?.data?.message || 'Network response was not ok');
@@ -39,10 +37,10 @@ export const createComment = async (nodeId, content, proStatus) => {
   }
 };
 
-export const endorseComment = async (nodeId, commentId, userId) => {
+export const endorseComment = async (nodeId, commentId) => {
   try {
     const response = await axios.post(
-      `/api/nodes/${nodeId}/comments/${commentId}/endorse/${userId}`,
+      `/api/nodes/${nodeId}/comments/${commentId}/endorse`,
       {},
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -53,10 +51,10 @@ export const endorseComment = async (nodeId, commentId, userId) => {
   }
 };
 
-export const reportComment = async (nodeId, commentId, userId) => {
+export const reportComment = async (nodeId, commentId) => {
   try {
     const response = await axios.post(
-      `/api/nodes/${nodeId}/comments/${commentId}/report/${userId}`,
+      `/api/nodes/${nodeId}/comments/${commentId}/report`,
       {},
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -67,10 +65,10 @@ export const reportComment = async (nodeId, commentId, userId) => {
   }
 };
 
-export const unendorseComment = async (nodeId, commentId, userId) => {
+export const unendorseComment = async (nodeId, commentId) => {
   try {
     const response = await axios.post(
-      `/api/${nodeId}/comments/${commentId}/unendorse/${userId}`,
+      `/api/nodes/${nodeId}/comments/${commentId}/unendorse`,
       {},
       { headers: { 'Content-Type': 'application/json' } }
     );
@@ -81,10 +79,10 @@ export const unendorseComment = async (nodeId, commentId, userId) => {
   }
 };
 
-export const unreportComment = async (nodeId, commentId, userId) => {
+export const unreportComment = async (nodeId, commentId) => {
   try {
     const response = await axios.post(
-      `/api/${nodeId}/comments/${commentId}/unreport/${userId}`,
+      `/api/nodes/${nodeId}/comments/${commentId}/unreport`,
       {},
       { headers: { 'Content-Type': 'application/json' } }
     );

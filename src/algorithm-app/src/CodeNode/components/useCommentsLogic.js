@@ -58,9 +58,9 @@ const useCommentsLogic = (nodeId) => {
       const newEndorsementCount = isEndorsed ? currentEndorsements - 1 : currentEndorsements + 1;
 
       if (isEndorsed) {
-        await unendorseComment(nodeId, commentId, user.UUID);
+        await unendorseComment(nodeId, commentId);
       } else {
-        await endorseComment(nodeId, commentId, user.UUID);
+        await endorseComment(nodeId, commentId);
       }
       
       setComments(prev => prev.map(comment => 
@@ -74,7 +74,7 @@ const useCommentsLogic = (nodeId) => {
       ));
 
       // Trigger node completion after 2 endorsements
-      if (!isEndorsed && newEndorsementCount === 1) {
+      if (!isEndorsed && newEndorsementCount === 2) {
         // Use the comment's proStatus instead of hardcoded 1
         const comment = comments.find(c => c.id === commentId);
         const score = comment.prostatus;
@@ -102,9 +102,9 @@ const useCommentsLogic = (nodeId) => {
       const isReported = comments.find(c => c.id === commentId)?.is_reported;
       
       if (isReported) {
-        await unreportComment(nodeId, commentId, user.UUID);
+        await unreportComment(nodeId, commentId);
       } else {
-        await reportComment(nodeId, commentId, user.UUID);
+        await reportComment(nodeId, commentId);
       }
       
       setComments(prev => prev.map(comment => 
