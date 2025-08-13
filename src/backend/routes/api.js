@@ -1,17 +1,13 @@
 const express = require('express');
 const router = express.Router();
 const {
-  getNode,
-  getChildren,
-  createNode,
-  getPathToRoot,
+  getNode, getChildren, createNode, getPathToRoot,
   completeNode,
-  likeNode,
-  dislikeNode,
-  unlikeNode,
-  undislikeNode
+  likeNode, dislikeNode, unlikeNode, undislikeNode
 } = require('../controllers/nodeController');
-const { getRoots, createRoot } = require('../controllers/rootController');
+const { getRoots, createRoot, 
+  getNodeSecurityLevel, getRootPerms, getMyRoots, changePerms, removePerms
+} = require('../controllers/rootController');
 const { getComments, createComment,
   getCommentEndorseCount, endorseComment, 
   getCommentReportCount, reportComment, 
@@ -25,6 +21,14 @@ const { getSaved, createSave, isSaved, unSave } = require('../controllers/profil
 // Root endpoints
 router.get('/roots/:id', getRoots);
 router.post('/roots', createRoot); 
+router.get('/roots/security-level', getNodeSecurityLevel);
+router.get('/roots/permissions', getRootPerms);
+router.get('/roots/my-roots', getMyRoots);
+router.get('/roots/change-perms', changePerms);
+router.get('/roots/remove-perms', removePerms);
+
+
+
 //Searching
 router.get('/search', getSearch);
 
@@ -38,9 +42,9 @@ router.post('/nodes/:id/like/', likeNode);
 router.post('/nodes/:id/dislike/', dislikeNode);
 router.post('/nodes/:id/unlike/', unlikeNode);
 router.post('/nodes/:id/undislike/', undislikeNode);
-
 // Tree visual
 router.get('/nodes/:id/tree', getTree);
+
 // Comment endpoints
 router.route('/nodes/:id/comments')
   .get(getComments)
@@ -63,7 +67,6 @@ router.post('/signup', authController.signup);
 router.post('/logout', authController.logout);
 router.get('/dashboard', authController.getDashboardData);
 router.post('/auth/google', authController.googleAuth);
-
 
 // user APIs
 router.post('/saved', getSaved);

@@ -1,4 +1,5 @@
 const db = require('../db');
+const { countReactions } = require('../utils/CountReactions');
 const { incrementAncestorCounter, updateScoreAfterConclusionBayesian,
   updateAncestorScoresSimpleAvg, updateAncestorScoresWeightedAvg } = require('../utils/updateAfterConclusion');
 const { updateAncestorNewNode } = require('../utils/updateAncestorNewNode');
