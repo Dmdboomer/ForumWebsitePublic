@@ -64,7 +64,7 @@ exports.getChildren = async (req, res) => {
 // Create new node
 exports.createNode = async (req, res) => {
   const { parent_id, title, content, statementTrueFalseFlag } = req.body;
-
+  const UUID = req.session.userId
   // Validate request parameters
   if (!parent_id ) {
     return res.status(400).json({ error: 'Parent ID and scores array are required' });
@@ -122,9 +122,9 @@ exports.createNode = async (req, res) => {
     // Create child nodes
     const childIds = [];
     const [result] = await db.query(
-      `INSERT INTO nodes (parent_id, leaf_count_in_subtree, popularity, title, content, statementTrueFalseFlag, non_null_leaf_count, allChildrenCompleted)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?)`,
-      [parent_id, 2, 0.5 , title, content, statementTrueFalseFlag, 0, 0]
+      `INSERT INTO nodes (parent_id, leaf_count_in_subtree, popularity, title, content, statementTrueFalseFlag, non_null_leaf_count, allChildrenCompleted, UUID)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)`,
+      [parent_id, 2, 0.5 , title, content, statementTrueFalseFlag, 0, 0, UUID]
     );
     childIds.push(result.insertId);
 

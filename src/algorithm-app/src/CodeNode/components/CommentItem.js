@@ -2,26 +2,26 @@ import React from 'react';
 import getTimeDisplay from '../../utils/helperFunctions/GetTimeSince';
 import '../nonGlobalStyle/CommentItem.css';
 
-const CommentItem = ({ comment, user, processing, onEndorse, onReport }) => {
+const CommentItem = ({ comment, processing, onEndorse, onReport }) => {
   return (
     <div className="comment-item">
       <div className="d-flex">
         <div className="comment-avatar">
           <span className="comment-avatar-initial">
-            {user?.username?.charAt(0) || 'U'}
+            {comment.username?.charAt(0) || 'U'}
           </span>
         </div>
         <div className="comment-content">
           <p className="comment-text">{comment.comment_text}</p>
           <div className="comment-meta">
             <small className="comment-timestamp">
-              Posted {getTimeDisplay(comment.created_at)} by {user?.username || 'Unknown'}
+              Posted {getTimeDisplay(comment.created_at)} by {comment.username || 'Unknown'}
             </small>
             <div className="comment-actions">
               <button
                 className={`btn-endorse ${comment.is_endorsed ? 'endorsed' : ''}`}
                 onClick={() => onEndorse(comment.id)}
-                disabled={processing[comment.id] || !user}
+                disabled={processing[comment.id] || !comment.username}
                 aria-label={comment.is_endorsed ? "Unendorse comment" : "Endorse comment"}
               >
                 {processing[comment.id] === 'endorsing' ? (
@@ -37,7 +37,7 @@ const CommentItem = ({ comment, user, processing, onEndorse, onReport }) => {
               <button 
                 className={`btn-report ${comment.is_reported ? 'reported' : ''}`}
                 onClick={() => onReport(comment.id)}
-                disabled={processing[comment.id] || !user}
+                disabled={processing[comment.id] || !comment.username}
                 aria-label={comment.is_reported ? "Unreport comment" : "Report comment"}
               >
                 {processing[comment.id] === 'reporting' ? (

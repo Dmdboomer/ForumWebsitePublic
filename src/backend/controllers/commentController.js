@@ -10,6 +10,7 @@ exports.getComments = async (req, res) => {
     const query = `
       SELECT 
         c.*,
+        u.username,
         (SELECT COUNT(*) FROM comment_reactions 
          WHERE comment_id = c.id AND reaction_type = 1) AS endorsement_count,
         (SELECT COUNT(*) FROM comment_reactions 
@@ -19,6 +20,7 @@ exports.getComments = async (req, res) => {
         EXISTS(SELECT 1 FROM comment_reactions 
                WHERE comment_id = c.id AND user_id = ? AND reaction_type = 2) AS is_reported
       FROM comments c
+      INNER JOIN users u ON u.UUID = c.UUID
       WHERE c.node_id = ?
     `;
 
@@ -34,7 +36,7 @@ exports.getComments = async (req, res) => {
 exports.createComment = async (req, res) => {
   const nodeId = req.params.id;
   const { content, proStatus } = req.body;
-
+  const UUID = req.session.userId;
 
   if (!content) {
     return res.status(400).json({ 
@@ -43,8 +45,8 @@ exports.createComment = async (req, res) => {
   }
 
   try {
-    const sql = `INSERT INTO comments (node_id, comment_text, proStatus) VALUES (?, ?, ?)`;
-    const [result] = await db.query(sql, [nodeId, content, proStatus]);
+    const sql = `INSERT INTO comments (node_id, UUID, comment_text, proStatus) VALUES (?, ?, ?, ?)`;
+    const [result] = await db.query(sql, [nodeId, UUID, content, proStatus]);
     
     // Get newly created comment with its ID
     const [newComment] = await db.query(

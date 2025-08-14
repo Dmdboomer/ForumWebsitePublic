@@ -14,7 +14,7 @@ const useCommentsLogic = (nodeId) => {
   const [showCommentForm, setShowCommentForm] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(true);
   const [processing, setProcessing] = React.useState({});
-  const { user } = useAuth();
+  const {user} = useAuth()
 
   React.useEffect(() => {
     let isMounted = true;
@@ -27,8 +27,8 @@ const useCommentsLogic = (nodeId) => {
           return;
         }
 
-        const userId = user?.UUID || null;
-        const commentsData = await fetchComments(nodeId, userId);
+        const commentsData = await fetchComments(nodeId);
+        console.log(commentsData);
         if (isMounted) setComments(commentsData);
       } catch (error) {
         console.error('Error fetching comments:', error);
@@ -134,7 +134,6 @@ const useCommentsLogic = (nodeId) => {
     showCommentForm,
     isLoading,
     processing,
-    user,
     setShowCommentForm,
     handleNewComment,
     handleEndorse,

@@ -10,7 +10,6 @@ const CommentsSection = ({ nodeId }) => {
     showCommentForm,
     isLoading,
     processing,
-    user,
     setShowCommentForm,
     handleNewComment,
     handleEndorse,
@@ -64,7 +63,6 @@ const CommentsSection = ({ nodeId }) => {
               <CommentItem 
                 key={comment.id}
                 comment={comment}
-                user={user}
                 processing={processing}
                 onEndorse={handleEndorse}
                 onReport={handleReport}

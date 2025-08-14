@@ -25,18 +25,18 @@ exports.createRoot = async (req, res) => {
         await db.query('START TRANSACTION');
         
         const nodesSql = `INSERT INTO nodes 
-                          (leaf_count_in_subtree, popularity, title, content, non_null_leaf_count, allChildrenCompleted, privacy_level) 
-                          VALUES (2, 0.5, ?, ?, 0, 0, 0)`;
+                          (leaf_count_in_subtree, popularity, title, content, non_null_leaf_count, allChildrenCompleted, privacy_level, UUID) 
+                          VALUES (2, 0.5, ?, ?, 0, 0, 0, ?)`;
         
         // Execute SQL with parameterized query
-        const [result] = await db.query(nodesSql, [title, content]);
+        const [result] = await db.query(nodesSql, [title, content, UUID]);
         
         const newNodeID = result.insertId
         
         
         await db.query(`INSERT INTO topic_roots
-                        (node_id, title, content)
-                        VALUES (?, ?, ?)`, [newNodeID, title, content])
+                        (node_id, title, content, UUID)
+                        VALUES (?, ?, ?, ?)`, [newNodeID, title, content, UUID])
         
         
         await db.query(`INSERT INTO root_privacy
